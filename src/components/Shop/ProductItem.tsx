@@ -1,7 +1,13 @@
 import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
 
-const ProductItem = (props) => {
+export interface ProductItemProps {
+  title: string;
+  price: number;
+  description: string;
+}
+
+const ProductItem = (props: ProductItemProps) => {
   const { title, price, description } = props;
 
   return (

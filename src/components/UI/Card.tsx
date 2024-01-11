@@ -1,6 +1,11 @@
+import { ComponentPropsWithoutRef } from 'react';
 import classes from './Card.module.css';
 
-const Card = (props) => {
+export interface CardProps extends ComponentPropsWithoutRef<'section'> {
+  className?: string;
+}
+
+const Card = (props: CardProps) => {
   return (
     <section
       className={`${classes.card} ${props.className ? props.className : ''}`}

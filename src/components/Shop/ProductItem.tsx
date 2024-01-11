@@ -2,6 +2,7 @@ import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
 
 export interface ProductItemProps {
+  id: number;
   title: string;
   price: number;
   description: string;

@@ -2,6 +2,7 @@ import classes from "./CartItem.module.css";
 
 export interface CartItemProps {
   item: {
+    id: number;
     title: string;
     quantity: number;
     total: number;

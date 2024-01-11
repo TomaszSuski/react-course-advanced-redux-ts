@@ -2,15 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ProductItemProps } from "../components/Shop/ProductItem";
 
 export interface CartItemProps extends ProductItemProps {
-  id: number;
   quantity: number;
 }
 
 export interface CartState {
   items: CartItemProps[];
+  cartVisible: boolean;
 }
 
-const initialCartState: CartState = { items: [] };
+export interface CartInterface {
+  cart: CartState;
+}
+
+const initialCartState: CartState = { items: [], cartVisible: false };
 
 const cartSlice = createSlice({
   name: "cart",
@@ -42,6 +46,9 @@ const cartSlice = createSlice({
           (item) => item.id !== action.payload.id
         );
       }
+    },
+    toggleCart(state) {
+      state.cartVisible = !state.cartVisible;
     },
   },
 });

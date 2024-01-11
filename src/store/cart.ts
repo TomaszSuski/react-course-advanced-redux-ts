@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ProductItemProps } from "../components/Shop/ProductItem";
 
-export interface CartItemProps extends ProductItemProps {
+export interface CartItem {
+  id: number;
+  title: string;
+  price: number;
   quantity: number;
 }
 
 export interface CartState {
-  items: CartItemProps[];
+  items: CartItem[];
   cartVisible: boolean;
 }
 
@@ -20,7 +22,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: initialCartState,
   reducers: {
-    addOneItem(state, action: { payload: CartItemProps }) {
+    addOneItem(state, action: { payload: CartItem }) {
       if (
         state.items.length === 0 ||
         state.items.findIndex((item) => item.id === action.payload.id) === -1

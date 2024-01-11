@@ -1,34 +1,43 @@
+import { useDispatch, useSelector } from "react-redux";
 import classes from "./CartItem.module.css";
+import { CartInterface, cartActions } from "../../store/cart";
 
 export interface CartItemProps {
-  item: {
-    id: number;
-    title: string;
-    quantity: number;
-    total: number;
-    price: number;
-  };
+  id: number;
 }
 
-const CartItem = (props: CartItemProps) => {
-  const { title, quantity, total, price } = props.item;
+const CartItem = ({ id }: CartItemProps) => {
+  const item = useSelector((state: CartInterface) =>
+    state.cart.items.find((item) => item.id === id)
+  )!;
+  const dispatch = useDispatch();
+
+  const addItemHandler = () => {
+    dispatch(cartActions.addOneItem(item));
+  };
+
+  const removeItemHandler = () => {
+    dispatch(cartActions.removeOneItem({ id }));
+  };
 
   return (
     <li className={classes.item}>
       <header>
-        <h3>{title}</h3>
+        <h3>{item.title}</h3>
         <div className={classes.price}>
-          ${total.toFixed(2)}{" "}
-          <span className={classes.itemprice}>(${price.toFixed(2)}/item)</span>
+          ${(item.price * item.quantity).toFixed(2)}{" "}
+          <span className={classes.itemprice}>
+            (${item.price.toFixed(2)}/item)
+          </span>
         </div>
       </header>
       <div className={classes.details}>
         <div className={classes.quantity}>
-          x <span>{quantity}</span>
+          x <span>{item.quantity}</span>
         </div>
         <div className={classes.actions}>
-          <button>-</button>
-          <button>+</button>
+          <button onClick={removeItemHandler}>-</button>
+          <button onClick={addItemHandler}>+</button>
         </div>
       </div>
     </li>

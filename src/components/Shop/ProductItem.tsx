@@ -21,7 +21,6 @@ const ProductItem = (props: ProductItemProps) => {
         id,
         title,
         price,
-        description,
         quantity: 1,
       })
     );

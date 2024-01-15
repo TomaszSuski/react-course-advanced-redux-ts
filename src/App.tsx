@@ -7,9 +7,6 @@ import { AppDispatch, CartInterface, sendCartData } from "./store/cart-slice";
 import { UIInterface } from "./store/ui-slice";
 import Notification from "./components/UI/Notification";
 
-// access DATABASE_URL from .env file
-const URL = process.env.REACT_APP_DATABASE_URL!;
-
 let isInitial = true;
 
 function App() {
@@ -27,8 +24,7 @@ function App() {
       return;
     }
 
-    dispatch(sendCartData(cartItems, URL));
-
+    dispatch(sendCartData(cartItems));
   }, [cartItems, dispatch]);
 
   return (

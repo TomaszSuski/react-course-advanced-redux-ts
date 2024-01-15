@@ -2,6 +2,9 @@ import { createSlice, ThunkAction, Action } from "@reduxjs/toolkit";
 import { uiActions } from "./ui-slice";
 import store from "./index";
 
+// access DATABASE_URL from .env file
+const URL = process.env.REACT_APP_DATABASE_URL!;
+
 export interface CartItem {
   id: number;
   title: string;
@@ -62,8 +65,9 @@ const cartSlice = createSlice({
   },
 });
 
+//--------------------------------------------------------------
 // using action creator thunk to send http request
-export const sendCartData = (cartItems: CartItem[], url: string) => {
+export const sendCartData = (cartItems: CartItem[]) => {
   return async (dispatch: any) => {
     dispatch(
       uiActions.showNotification({
@@ -74,7 +78,7 @@ export const sendCartData = (cartItems: CartItem[], url: string) => {
     );
 
     const sendRequest = async () => {
-      const response = await fetch(`${url}/cart.json`, {
+      const response = await fetch(`${URL}/cart.json`, {
         method: "PUT",
         body: JSON.stringify(cartItems),
       });
@@ -104,6 +108,7 @@ export const sendCartData = (cartItems: CartItem[], url: string) => {
     }
   };
 };
+//--------------------------------------------------------------
 
 export const cartActions = cartSlice.actions;
 

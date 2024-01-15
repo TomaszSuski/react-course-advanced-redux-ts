@@ -9,14 +9,13 @@ export interface CartItem {
 
 export interface CartState {
   items: CartItem[];
-  cartVisible: boolean;
 }
 
 export interface CartInterface {
   cart: CartState;
 }
 
-const initialCartState: CartState = { items: [], cartVisible: false };
+const initialCartState: CartState = { items: [] };
 
 const cartSlice = createSlice({
   name: "cart",
@@ -48,9 +47,6 @@ const cartSlice = createSlice({
           (item) => item.id !== action.payload.id
         );
       }
-    },
-    toggleCart(state) {
-      state.cartVisible = !state.cartVisible;
     },
   },
 });

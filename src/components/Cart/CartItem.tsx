@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import classes from "./CartItem.module.css";
-import { CartInterface, cartActions } from "../../store/cart";
+import { CartInterface, cartActions } from "../../store/cart-slice";
 
 export interface CartItemProps {
   id: number;

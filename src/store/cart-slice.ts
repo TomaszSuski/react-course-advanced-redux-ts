@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, ThunkAction, Action } from "@reduxjs/toolkit";
+import { uiActions } from "./ui-slice";
+import store from "./index";
 
 export interface CartItem {
   id: number;
@@ -14,6 +16,15 @@ export interface CartState {
 export interface CartInterface {
   cart: CartState;
 }
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
 
 const initialCartState: CartState = { items: [] };
 
@@ -50,6 +61,49 @@ const cartSlice = createSlice({
     },
   },
 });
+
+// using action creator thunk to send http request
+export const sendCartData = (cartItems: CartItem[], url: string) => {
+  return async (dispatch: any) => {
+    dispatch(
+      uiActions.showNotification({
+        status: "pending",
+        title: "Sending...",
+        message: "Sending cart data!",
+      })
+    );
+
+    const sendRequest = async () => {
+      const response = await fetch(`${url}/cart.json`, {
+        method: "PUT",
+        body: JSON.stringify(cartItems),
+      });
+
+      if (!response.ok) {
+        throw new Error("Sending cart data failed.");
+      }
+    };
+    try {
+      await sendRequest();
+
+      dispatch(
+        uiActions.showNotification({
+          status: "success",
+          title: "Success!",
+          message: "Sent cart data successfully!",
+        })
+      );
+    } catch (error) {
+      dispatch(
+        uiActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Sending cart data failed!",
+        })
+      );
+    }
+  };
+};
 
 export const cartActions = cartSlice.actions;
 

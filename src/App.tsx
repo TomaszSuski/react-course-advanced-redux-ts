@@ -13,6 +13,7 @@ let isInitial = true;
 function App() {
   const cartVisible = useSelector((state: UIInterface) => state.ui.cartVisible);
   const cartItems = useSelector((state: CartInterface) => state.cart.items);
+  const cartChanged = useSelector((state: CartInterface) => state.cart.changed);
   const notification = useSelector(
     (state: UIInterface) => state.ui.notification
   );
@@ -29,8 +30,10 @@ function App() {
       return;
     }
 
-    dispatch(sendCartData(cartItems));
-  }, [cartItems, dispatch]);
+    if (cartChanged) {
+      dispatch(sendCartData(cartItems));
+    }
+  }, [cartItems, cartChanged, dispatch]);
 
   return (
     <>

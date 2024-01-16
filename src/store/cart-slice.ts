@@ -10,6 +10,7 @@ export interface CartItem {
 
 export interface CartState {
   items: CartItem[];
+  changed: boolean;
 }
 
 export interface CartInterface {
@@ -25,7 +26,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
-const initialCartState: CartState = { items: [] };
+const initialCartState: CartState = { items: [], changed: false };
 
 const cartSlice = createSlice({
   name: "cart",
@@ -37,10 +38,12 @@ const cartSlice = createSlice({
         state.items.findIndex((item) => item.id === action.payload.id) === -1
       ) {
         state.items.push({ ...action.payload, quantity: 1 });
+        state.changed = true;
       } else {
         state.items[
           state.items.findIndex((item) => item.id === action.payload.id)
         ].quantity += 1;
+        state.changed = true;
       }
     },
     removeOneItem(state, action: { payload: { id: number } }) {
@@ -52,10 +55,12 @@ const cartSlice = createSlice({
         state.items[
           state.items.findIndex((item) => item.id === action.payload.id)
         ].quantity -= 1;
+        state.changed = true;
       } else {
         state.items = state.items.filter(
           (item) => item.id !== action.payload.id
         );
+        state.changed = true;
       }
     },
     replaceCart(state, action: { payload: { items: CartItem[] } }) {

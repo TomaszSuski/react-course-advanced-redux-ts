@@ -3,7 +3,8 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, CartInterface, sendCartData } from "./store/cart-slice";
+import { AppDispatch, CartInterface } from "./store/cart-slice";
+import { fetchCartData, sendCartData } from "./store/cart-actions";
 import { UIInterface } from "./store/ui-slice";
 import Notification from "./components/UI/Notification";
 
@@ -17,6 +18,10 @@ function App() {
   );
 
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, []);
 
   useEffect(() => {
     if (isInitial) {
